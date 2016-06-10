@@ -90,6 +90,9 @@ We are in the process of analyzing the data.
 
 See [Harlan's visualization demo](https://harlanh.shinyapps.io/rent-stabilization-policy-viz/) (it's a work in process using simulated data).
 
+Question 1: How many buildings in DC have 4 or fewer units?
+  Answer 1: We used ACS (2010-2014) data to cross-tab housing units by the unit count of their building. *48% of housing units* in DC are in buildings with 4 or fewer units. We do not have exact information from ACS on the number of buildings, but the number of buildings is within the range of ~199,000-221,000 buildings.
+
 Blog posts
 ----------
 
