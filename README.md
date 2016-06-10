@@ -89,3 +89,9 @@ Analysis
 We are in the process of analyzing the data.
 
 See [Harlan's visualization demo](https://harlanh.shinyapps.io/rent-stabilization-policy-viz/) (it's a work in process using simulated data).
+
+Blog posts
+----------
+
+* [Why We Hack, by Joshua Tauberer 6/4/2016](https://medium.com/@joshuatauberer/why-we-hack-db430cb1aee0)
+* [Simulating Rent Stabilization Policy at the National Day of Civic Hacking, by Harlan Harris 6/5/2016](https://medium.com/@HarlanH/simulating-rent-stabilization-policy-at-the-national-day-of-civic-hacking-4f44b808387c#.sin5uywyb)
