@@ -8,7 +8,7 @@ The Rent Stabilization Program in the District of Columbia ([DC Code § 42–350
 
 The purpose of this project is to evaluate how a change in rent stabilization policy would affect rental properties in the District.
 
-We are working with the [Coalition for Nonprofit Housing & Economic Development](https://www.cnhed.org/). Our team members are [Marie Whittaker](https://github.com/mseew), [Nate Banion](https://github.com/nbanion), Harlan Harris, [Svyat Nakonechny](https://github.com/snakonechny), [Nicole Kelly](https://github.com/nikelly1326), Chris Given, Ariana Carella, Heidi Thompson, [Ursula Kaczmarek](https://github.com/ursulakaczmarek), Brigid McDermott, and [Josh Tauberer](https://github.com/joshdata). The project began at Code for DC's National Data of Civic Hacking event on June 4, 2016.
+We are working with the [Coalition for Nonprofit Housing & Economic Development](https://www.cnhed.org/). Our team members are [Marie Whittaker](https://github.com/mseew), [Nate Banion](https://github.com/nbanion), Harlan Harris, [Svyat Nakonechny](https://github.com/snakonechny), [Nicole Kelly](https://github.com/nikelly1326), Chris Given, Ariana Carella, Heidi Thompson, [Ursula Kaczmarek](https://github.com/ursulakaczmarek), [Brigid McDermott](https://github.com/br-mcdermott), and [Josh Tauberer](https://github.com/joshdata). The project began at Code for DC's National Data of Civic Hacking event on June 4, 2016.
 
 Background Links
 ----------------
