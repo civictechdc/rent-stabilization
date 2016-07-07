@@ -62,6 +62,11 @@ What we know about the DC rent control law
 
   b. If occupied, the previous rent increase must be at least 12 months ago. For current tenants, it may be increased by the [CPI-W](http://www.bls.gov/regions/mid-atlantic/news-release/consumerpriceindex_washingtondc.htm) + 2% but not more than 10%. For elderly tenants, the maximum increase is 5%.
 
+Reference Data
+--------------
+
+Two previous reports, [District Measured's 2016 analysis of DC OTR data](https://districtmeasured.com/2016/03/23/how-can-the-rent-be-so-high-in-dc-when-almost-two-thirds-of-all-rental-units-in-the-district-are-subject-torent-control-a-small-number-of-spoiler-units-with-high-turnover-may-be-the-reason/) and [Urban Institute's 2011 report](http://www.urban.org/research/publication/rent-control-report-district-columbia/view/full_report), provide baseline data to compare our analysis with. Their findings are saved in [reference-data.csv](reference-data.csv) for convenience.
+
 Data Sources
 ------------
 
