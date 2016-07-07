@@ -8,7 +8,7 @@ The Rent Stabilization Program in the District of Columbia ([DC Code § 42–350
 
 The purpose of this project is to evaluate how a change in rent stabilization policy would affect rental properties in the District.
 
-We are working with the [Coalition for Nonprofit Housing & Economic Development](https://www.cnhed.org/). Our team members are [Marie Whittaker](https://github.com/mseew), [Nate Banion](https://github.com/nbanion), Harlan Harris, [Svyat Nakonechny](https://github.com/snakonechny), [Nicole Kelly](https://github.com/nikelly1326), Chris Given, Ariana Carella, Heidi Thompson, and [Josh Tauberer](https://github.com/joshdata). The project began at Code for DC's National Data of Civic Hacking event on June 4, 2016.
+We are working with the [Coalition for Nonprofit Housing & Economic Development](https://www.cnhed.org/). Our team members are [Marie Whittaker](https://github.com/mseew), [Nate Banion](https://github.com/nbanion), Harlan Harris, [Svyat Nakonechny](https://github.com/snakonechny), [Nicole Kelly](https://github.com/nikelly1326), Chris Given, Ariana Carella, Heidi Thompson, [Ursula Kaczmarek](https://github.com/ursulakaczmarek), Brigid McDermott, and [Josh Tauberer](https://github.com/joshdata). The project began at Code for DC's National Data of Civic Hacking event on June 4, 2016.
 
 Background Links
 ----------------
@@ -16,6 +16,8 @@ Background Links
 * [District Measured Report (2016)](https://districtmeasured.com/2016/03/23/how-can-the-rent-be-so-high-in-dc-when-almost-two-thirds-of-all-rental-units-in-the-district-are-subject-torent-control-a-small-number-of-spoiler-units-with-high-turnover-may-be-the-reason/)
 
 * [Urban Institute Report (2011)](http://www.urban.org/research/publication/rent-control-report-district-columbia/view/full_report) ([pdf](http://www.urban.org/sites/default/files/alfresco/publication-pdfs/412347-A-Rent-Control-Report-for-the-District-of-Columbia.PDF)) (a project in collaboration with [Neighborhood Info DC](http://www.neighborhoodinfodc.org/index.html))
+
+* [Urban Institute - Affordable Housing Needs Assessment for the District of Columbia Phase II (2015)](http://www.urban.org/sites/default/files/alfresco/publication-pdfs/2000214-Affordable-Housing-Needs-Assessment-for-the-District-of-Columbia.pdf)
 
 * [RAD Rent Control Exemption form](http://dhcd.dc.gov/sites/default/files/dc/sites/dhcd/publication/attachments/Form%201%20-%20RAD%20Registration%20Claim%20of%20Exemption%20Form%202--RY%20Final_0.pdf)
 
@@ -65,7 +67,7 @@ What we know about the DC rent control law
 Reference Data
 --------------
 
-Two previous reports, [District Measured's 2016 analysis of DC OTR data](https://districtmeasured.com/2016/03/23/how-can-the-rent-be-so-high-in-dc-when-almost-two-thirds-of-all-rental-units-in-the-district-are-subject-torent-control-a-small-number-of-spoiler-units-with-high-turnover-may-be-the-reason/) and [Urban Institute's 2011 report](http://www.urban.org/research/publication/rent-control-report-district-columbia/view/full_report), provide baseline data to compare our analysis with. Their findings are saved in [reference-data.csv](reference-data.csv) for convenience.
+Three previous reports, [District Measured's 2016 analysis of DC OTR data](https://districtmeasured.com/2016/03/23/how-can-the-rent-be-so-high-in-dc-when-almost-two-thirds-of-all-rental-units-in-the-district-are-subject-torent-control-a-small-number-of-spoiler-units-with-high-turnover-may-be-the-reason/), [Urban Institute's 2011 report](http://www.urban.org/research/publication/rent-control-report-district-columbia/view/full_report), and [Urban Institute's 2015 affordable housing report](http://www.urban.org/sites/default/files/alfresco/publication-pdfs/2000214-Affordable-Housing-Needs-Assessment-for-the-District-of-Columbia.pdf), provide baseline data to compare our analysis with. Their findings are saved in [reference-data.csv](reference-data.csv) for convenience.
 
 Data Sources
 ------------
