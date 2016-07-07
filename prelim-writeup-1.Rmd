@@ -1,0 +1,129 @@
+---
+title: 'Rent control - Writeup #1'
+author: "SN"
+date: "July 6, 2016"
+output: html_document
+---
+
+Here's a quick writeup of our preliminary analysis. Most of these are high-level descriptive statistics; our hope is to extend this into an interactive application that goes beyond these descriptives.
+
+```{r, message=FALSE, warning=FALSE}
+#load the packages we'll be working with
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggthemes)
+```
+
+```{r, cache=TRUE, warning=FALSE, message=FALSE}
+
+#load the data - these files are saved locally as flat spreadsheets
+data.res <- read.csv('Residential_CAMA.csv')
+data.comm <- read.csv('Commercial_CAMA.csv')
+data.condo <- read.csv('Condominium_CAMA.csv')
+
+#remove all the irregular years in each subset
+data.res <- data.res %>% filter(nchar(AYB) == 4)
+data.comm <- data.comm %>% filter(nchar(AYB) == 4)
+data.condo <- data.condo %>% filter(nchar(AYB) == 4)
+
+#if Actual Year Built is missing, replace it with Estimated Year Built
+data.res <- data.res %>% mutate(AYB = ifelse(AYB == 0, EYB, AYB))
+data.comm <- data.comm %>% mutate(AYB = ifelse(AYB == 0, EYB, AYB))
+data.condo <- data.condo %>% mutate(AYB = ifelse(AYB == 0, EYB, AYB))
+
+```
+
+We started with some minor data cleanup. In each subset there are some years that were entered incorrectly (five or more characters, for instance). There aren't many of these, so we've removed them from the dataset. If Actual Year Built is missing (quite a few instances, particularly in the commercial dataset), we replace it with Estimated Year Built.
+
+Next, we'll tabulate the number of properties in each dataset by year. There are some buildings constructed in 19th, even 18th century; to avoid confusion, we'll group these under one larger category of structures built prior to 1930. This year is rather arbitrary - we can pick a different value if needed.
+
+```{r}
+data.res <- data.res %>% mutate(AYB = ifelse(.$AYB <= 1930, 1930, .$AYB))
+data.comm <- data.comm %>% mutate(AYB = ifelse(.$AYB <= 1930, 1930, .$AYB))
+data.condo <- data.condo %>% mutate(AYB = ifelse(.$AYB <= 1930, 1930, .$AYB))
+
+#tabulating the number of RESIDENTIAL BUILDINGS per year built:
+yearlyRes <- data.res %>% group_by(AYB) %>% summarise(Residential = n())
+
+#tabulating the number of COMMERCIAL BUILDINGS per year built:
+yearlyComm <- data.comm %>% group_by(AYB) %>% summarise(Commercial = n()) %>% slice(1:86)
+
+#tabulating the number of CONDO units per year built:
+yearlyCondo <- data.condo %>% group_by(AYB) %>% summarise(Condo = n())
+
+#combining these three tables into one for visualization
+yearlyAll <- left_join(yearlyRes, yearlyComm)
+yearlyAll <- left_join(yearlyAll, yearlyCondo) %>% filter(AYB != 1930)
+yearlyAll <- yearlyAll %>% gather('AYB', 'Count', 2:4)
+colnames(yearlyAll) <- c('YearBuilt', 'Type', 'Count')
+yearlyAll <- yearlyAll %>% slice(1:254)
+yearlyAll <- yearlyAll %>% group_by(Type) %>% arrange(YearBuilt) %>% mutate(cumulPerc = cumsum(Count)/sum(Count), cumulAbsolute = cumsum(Count))
+ 
+cumulPerc <- ggplot(data = yearlyAll, aes(YearBuilt, y = cumulPerc)) + geom_area() + facet_grid(.~Type) + theme_light() + xlab('Year built') + ylab('Cumulative percentage of buildings')
+cumulAbsolute <- ggplot(data = yearlyAll, aes(YearBuilt, y = cumulAbsolute)) + geom_area() + facet_grid(.~Type) + theme_light() + xlab('Year built') + ylab('Cumulative number of buildings')
+```
+
+```{r fig.width=10}
+plot(cumulPerc)
+plot(cumulAbsolute)
+
+```
+
+Between the two graphs, we can tell that much of the increase in residential building happened prior to 1960s (steepest slope) and was stable in 1980s-90s. Commercial development rate appears rather even between 1930 until present day. Condo development accelerated rather rapidly after 2000.
+
+However, the structure of commercial data is different from the residential and condo subsets: when looking at construction rate over time we need to account for the number of units built per year.
+
+```{r}
+comm.Units <- data.comm %>% group_by(AYB) %>% summarise(NumberUnits = sum(NUM_UNITS, na.rm = TRUE)) %>% filter(AYB > 1930) %>% mutate(cumulAbsolute = cumsum(NumberUnits)) %>% slice(1:85)
+
+cumuUnits <- ggplot(comm.Units, aes(AYB, cumulAbsolute)) + geom_area() + theme_light() + xlab('Year built') + ylab('Cumulative number of commercial units')
+```
+
+```{r fig.width=10}
+plot(cumuUnits)
+```
+
+
+We then regrouped residential, condo, and commercial buildings by year built AND by use code.
+```{r}
+#taking the residential addresses, grouping these by use code while preserving year built
+codeRes <- data.res %>% group_by(AYB, USECODE) %>% summarise(n = n())
+
+#taking the condo addresses, grouping these by use code while preserving year built
+codeCondo <- data.condo %>% group_by(AYB, USECODE) %>% summarise(n = n())
+
+#taking the commercial address, grouping these by use code while preserving year built
+codeComm <- data.comm %>% group_by(AYB, USECODE) %>% select(AYB, USECODE, NUM_UNITS)
+```
+
+Next, 
+```{r}
+#filtering out all residential codes we don't care about
+codeRes <- codeRes %>% filter(USECODE %in% c(11, 12, 13, 24, 23, 21, 1, 15, 19, 25, 28))
+
+#filtering out all condo codes we don't care about
+codeCondo <- codeCondo %>% filter(USECODE %in% c(16, 17, 117))
+
+#filtering out all commercial codes we don't care about
+codeComm <- codeComm %>% filter(USECODE %in% c(11, 12, 21, 217, 1))
+```
+
+Now let's tabulate some basic statistics for the three building subtypes:
+```{r}
+#within residential buildings, how many one-unit buildings are there?
+oneUnitRes <- codeRes %>% filter(USECODE %in% c(11, 12, 13, 1, 15, 19))
+sum(oneUnitRes$n)
+
+#within residential buildings, how many 3-5-unit buildings are there?
+unknownUnitsRes <- data.res %>% group_by(AYB, USECODE) %>% summarise(n = n()) %>% filter(USECODE %in% c(23,24))
+
+#using the number above, how many units are in these 3-5-unit buildings?
+sum(unknownUnitsRes$n) * 4
+
+#how many total condo units are there?
+sum(codeCondo$n)
+
+#how many total commercial units are there in DC?
+sum(codeComm$NUM_UNITS, na.rm = TRUE)
+```
