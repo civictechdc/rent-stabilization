@@ -1,5 +1,4 @@
-library(dplyr)
-library(tidyr)
+#Pre-computation data cleaning
 
 data.res <- read.csv('Residential_CAMA.csv')
 data.comm <- read.csv('Commercial_CAMA.csv')
@@ -10,53 +9,53 @@ data.res <- data.res %>% filter(nchar(AYB) == 4)
 data.comm <- data.comm %>% filter(nchar(AYB) == 4)
 data.condo <- data.condo %>% filter(nchar(AYB) == 4)
 
-
-#tabulating the number of RESIDENTIAL BUILDINGS per year built:
-yearlyRes <- data.res %>% group_by(AYB) %>% summarise(n = n())
-
-#tabulating the number of COMMERCIAL BUILDINGS per year built:
-yearlyComm <- data.comm %>% group_by(AYB) %>% summarise(n = n())
-
-#tabulating the number of CONDO units per year built:
-yearlyCondo <- data.condo %>% group_by(AYB) %>% summarise(n = n())
-
-#taking the residential addresses, grouping these by use code while preserving year built
-codeRes <- data.res %>% group_by(AYB, USECODE) %>% summarise(n = n())
-
-#taking the condo addresses, grouping these by use code while preserving year built
-codeCondo <- data.condo %>% group_by(AYB, USECODE) %>% summarise(n = n())
-
-#taking the commercial address, grouping these by use code while preserving year built
-codeComm <- data.comm %>% group_by(AYB, USECODE) %>% select(AYB, USECODE, NUM_UNITS)
-
-#filtering out all residential codes we don't care about
-codeRes <- codeRes %>% filter(USECODE %in% c(11, 12, 13, 24, 23, 21, 1, 15, 19, 25, 28))
+data.res <- data.res %>% filter(USECODE %in% c(11, 12, 13, 24, 23, 21, 1, 15, 19, 25, 28))
 
 #filtering out all condo codes we don't care about
-codeCondo <- codeCondo %>% filter(USECODE %in% c(16, 17, 117))
+data.condo <- data.condo %>% filter(USECODE %in% c(16, 17, 117))
 
 #filtering out all commercial codes we don't care about
-codeComm <- codeComm %>% filter(USECODE %in% c(11, 12, 21, 217, 1))
+data.comm <- data.comm %>% filter(USECODE %in% c(11, 12, 21, 217, 1))
 
 #within residential buildings, how many one-unit buildings are there?
-oneUnitRes <- codeRes %>% filter(USECODE %in% c(11, 12, 13, 1, 15, 19))
-sum(oneUnitRes$n)
+#oneUnitRes <- codeRes %>% filter(USECODE %in% c(11, 12, 13, 1, 15, 19))
 
-#how many total condo units are there?
-sum(codeCondo$n)
 
-#how many total commercial units are there in DC?
-sum(codeComm$NUM_UNITS, na.rm = TRUE)
+#restructure the three data sets such that each row/observation is a unit in a building; first, for commercial buildings
+#note: this removes all instances where the number of units is zero or NA
+rows <- nrow(data.comm)
+data.comm.new <- data.frame()
 
-#creating categories for pre/post 1975
-codeCondo <- codeCondo %>% mutate(ifelse(AYB <= 1975, 1, 2))
-colnames(codeCondo) <- c('AYB', 'USECODE', 'n', 'pre1975')
-codeCondo %>% group_by(pre1975) %>% mutate(total = sum(n)) %>% distinct()
+for (i in 1:rows) {
+  
+  if (is.na(data.comm$NUM_UNITS[i]) == FALSE) {
+    
+    temp <- data.comm[i,]
+    data.comm.new <- bind_rows(data.comm.new, mefa:::rep.data.frame(temp, as.numeric(data.comm$NUM_UNITS[i])))
+  }
+}
 
-oneUnitRes <- oneUnitRes %>% mutate(ifelse(AYB <= 1975, 1, 2))
-colnames(oneUnitRes) <- c('AYB', 'USECODE', 'n', 'pre1975')
-oneUnitRes %>% group_by(pre1975) %>% mutate(total = sum(n)) %>% select(4:5) %>% distinct()
+#stimating the number of units for residential records that have between 3 and 5 units in them
+#we will also get all residential units located in buildings with 3-5 units as separate rows
+temp.res.data <- data.res %>% filter(USECODE %in% c(23,24))
+data.res.new <- temp.res.data[rep(seq_len(nrow(temp.res.data)), 4), ]
 
-codeComm <- codeComm %>% mutate(ifelse(AYB <= 1975, 1, 2))
-colnames(codeComm) <- c('AYB', 'USECODE', 'n', 'pre1975')
-codeComm %>% group_by(pre1975) %>% mutate(total = sum(n, na.rm = TRUE)) %>% select(4:5) %>% distinct()
+
+#create a side copy of all residential buildings we'll assume to have 1 unit
+res.unfiltered <- data.res %>% filter(!(USECODE %in% c(23,24)))
+
+
+#now preparing each subset to be appended on top of each other
+indecies.r <- which(colnames(data.res.new) %in% colnames(data.comm.new))
+data.res.new <- data.res.new %>% select(indecies.r) %>% select(-NUM_UNITS)
+
+indecies.comm <- which(colnames(data.comm.new) %in% colnames(data.res.new))
+data.comm.new <- data.comm.new %>% select(indecies.comm)
+
+indecies.condo <- which(colnames(data.condo) %in% colnames(data.res.new))
+data.condo.new <- data.condo %>% select(indecies.condo)
+
+indecies.rn <- which(colnames(res.unfiltered) %in% colnames(data.res.new))
+data.res.oneunit <- res.unfiltered %>% select(indecies.rn)
+
+data.final <- bind_rows(list(data.res.new, data.condo.new, data.comm.new, data.res.oneunit))
