@@ -76,11 +76,11 @@ Our primary data source is the Computer Assisted Mass Appraisal (CAMA) database 
 
 This database has these key fields:
 
-* `usecode`: A [real property use code](http://opendata.dc.gov/datasets/9d8e09cb7403445ca8b4354cac6ae776_54) ([PDF](http://otr.cfo.dc.gov/sites/default/files/dc/sites/otr/publication/attachments/Use%20codes.pdf)). This code says what type of property it is. For the residential properties, this code can _possibly_ distinguish non-rental residential properties (or for multi-unit rental properties, a guess at how many units are owned by the renter, which might not be covered by rent stabilization?). For commercial properties, this code distinguishes large rental properties from other sorts of non-residential commercial properties.
+* `usecode`: A [real property use code](http://opendata.dc.gov/datasets/9d8e09cb7403445ca8b4354cac6ae776_54) ([PDF](http://otr.cfo.dc.gov/sites/default/files/dc/sites/otr/publication/attachments/Use%20codes.pdf)). This code says what type of property it is. This code distinguishes large rental properties from other sorts of non-residential commercial properties. It also can provide a guess for how many residential units are in a structure. [use-codes.csv](use-codes.csv) contains our determination for which use codes indicate a residential space (i.e. plausibly rental) and guesses for the number of units within such residential structures.
 
 * `ayb`: "The earliest time the main portion of the building was built," which is the closest data point we have for when its building permit was issued.
 
-* `num_units`: The number of residential units in the property, which we are using to estimate the number of rental units owned by the same owner. This field is only present in the residential file, unfortunately.
+* `num_units`: The number of residential units in the property, which we are using to estimate the number of rental units owned by the same owner. This field is only present in the commercial file, unfortunately, and for the other files we're guessing the number of units in the strucuture based on the use code.
 
 * `ownername`: The name of the owner. To the extent names are consistent throughout the dataset and uniquely identify a person (both of which are probably false), this might help establish if an owner owns more than four rental units across multiple properties.
 
@@ -89,6 +89,14 @@ This database has these key fields:
 For checking data points by hand, the CAMA data appears in the [DCRA Property Information Verification System](http://pivs.dcra.dc.gov/PIVS/Search.aspx), except for use codes. Use codes appear in the [DC OTR Real Property Assessment Database](https://www.taxpayerservicecenter.com/RP_Search.jsp?search_type=Assessment).
 
 Other datasets we may use are [CPI-W](http://download.bls.gov/pub/time.series/cw/), [building footprints shapefile](http://opendata.dc.gov/datasets/a657b34942564aa8b06f293cb0934cbd_1), [DCRA/ Certificate of Occupancy data](https://www.dropbox.com/sh/qic9irkt8eyxbv8/AACQIK6RLlfYPhCySUqNwJRMa?dl=0), [HUD Data (info on federal public housing and section 8 units, since those are not rent controlled)](http://data.hud.gov/data_sets.html) in particular [Public Housing Agency (PHA) Inventory](http://www.hud.gov/offices/pih/programs/hcv/ogddata/lowrent-s8-units.zip), and the [Master Address Record Address Points](http://opendata.dc.gov/datasets/aa514416aaf74fdc94748f1e56e7cc8a_0) which has ward/ANC/SMD information for each SSL.
+
+Reproducing Our Analysis
+------------------------
+
+Our analysis is performed in R with the following scripts run in this order:
+
+* `download-datasets.R` fetches the datasets and saves them into the `data` directory.
+* `residential-units.R` creates a single table that lists every known residential unit in the district, by including the units from the CAMA datasets and expanding the buildings listed in the CAMA dataset into their units. Where the number of units in a structure is not given in the CAMA file, we use the use code to guess (see above). This step is unfortunately very slow.
 
 Analysis
 --------

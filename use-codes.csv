@@ -1,0 +1,25 @@
+usecode,units,name,description
+11,1,Residential-Row-Single-Family,"Single family dwelling with 2 walls build as common walls with another structure, 2 exposed walls; primarily used as a place of abode."
+12,1,Residential-Detached-Single-Family,Free-standing dwelling with open space around it and in all exterior walls; primarily used as abode.
+13,1,Residential-Semi-Detached-Single-Family,"Structure with 1 dwelling place, 1 wall built as common wall with another structure, 3 exposed walls; primarily used as abode."
+15,1,Residential-Mixed Use,"Single-family property with commercial (usually office) space in part of house. If use is mostly single-family, lot may be eligible for a Homestead Deduction."
+16,1,Residential-Condo-Horizontal,"Enclosed space of 1 or more rooms, occupying all of part of 1 or more floors; entrance no higher than 3 floors; single-family use; may/may not have parking, laundry, patio, etc."
+17,1,Residential-Condo-Vertical,"Enclosed space of 1 or more rooms, occupying all of part of 1 or more floors; in structure with elevator; more than 3 floors. Original primary use single-family. May have parking, laundry, patio, etc."
+19,1,Residential-Single-Family-Misc,All other residential-single family uses not otherwise coded.
+21,,Residential-Apartment-Walk-Up,Structure of 6 or more units; 1 owner; owner's motivation is to earn investment income; no units higher than 3rd floor; no elevator; may have accessory uses.
+22,,Residential-Apartment-Elevator,"Structure with 12 or more units; 1 owner; elevator, more than 3 floors; may have accessory uses (parking, laundry, etc.). Owner's motivation is investment income."
+23,2-4,Residential Flats-Less than 5,"Structure with more than 1 single family unit, less than 5; usually self-contained, under 1 roof; few accessory uses; in some cases, owner occupies 1 unit; built for this use."
+24,2-4,Residential-Conversions-Less than 5,"Structure with more than 1 single family unit, less than 5; usually self-contained, under 1 roof; few accessory uses; in some cases, owner occupies 1 unit; original primary use not multi-family"
+25,5,Residential-Conversion-5 units,"Structure with 5 units, usually not self-contained but under 1 roof; with few accessory uses; 1 unit may be owner-occupied; original primary use not multi-family."
+26,,Residential-Cooperative-Horizontal,"Structure with more than 1 unit, of 1 or more rooms; 1 corporate ownership accounts for benefit of all tenant-shareholders, or lease from shareholders; entrance no higher than 3 floors; may have accessory uses."
+27,,Residential-Cooperative-Vertical,"Structure with more than 1 unit, each with 1 or more rooms; 1 corporate ownership accounts for benefit of all tenant-shareholders; lease from shareholders; elevator; more than 3 floors; may have accessory uses."
+28,,Residential-Cooperative-Mrth5,"Structure of more than 5 units, usually self-contained but under 1 roof; with a few accessory uses; usually 1 unit is owner-occupied; original primary use not multi-family"
+29,,"Residential-Multifamily, Misc",All other residential multi-family uses not otherwise noted. Mixed-use eligible.
+116,1,Condo-Horizontal-Combined-,"Unit in a structure with entrance no higher than 3 floors; designed primarily for single family residential use; accessory uses. Abuts primary unit; owner entitled to lower (Class 1) tax rate, but not Homestead Deduction."
+117,1,Condo-Vertical-Combined,"Unit in a structure with more than 3 floors; designed primarily for single family residential use; accessory uses. Abut primary owner entitled to lower (Class 1) tax rate, but not Homestead Deduction."
+126,,Coop-Horizontal-Mixed Use,"Structure with more than 1 unit, an elevator, more than 3 floors; under 1 corporate ownership which acts to benefit all shareholders-tenants. Additional uses: retail sales, restaurants, offices. Mixed-use eligible."
+127,,Coop-Vertical-Mixed Use,"Structure with more than 1 unit, elevator, more than 3 floors; under 1 corporate ownership which acts to benefit all shareholders-tenants. Additional uses: retail sales, restaurants, offices. Mixed-use eligible."
+216,1,Condo-Investment-Horizontal,"Unit with entrance no higher than 3 floors above ground level, designed for single- family primary use; accessory uses. Fee owner's presumptive motivation is net investment income."
+217,1,Condo-Investment-Vertical,"Unit with entrance no higher than 3 floors about ground level, designed for single-family primary use; accessory uses. Fee owner's presumptive motivation is new investment income."
+316,1,Condo-Duplex,"Enclosed space with 2 piggy-backed units; designed primarily for single-family use; accessory uses: parking, laundry, storage, balcony, etc."
+516,1,Condo-Detached,"Enclosed space of one unit of 1 or more rooms in a structure designed primarily for single- family residential use; accessory uses (parking, laundry, storage space, balcony, etc.)"
