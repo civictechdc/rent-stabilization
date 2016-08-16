@@ -68,9 +68,34 @@ append_unit <- function(cama_row, i, units, source_file) {
 		source_object_id=cama_row$OBJECTID
 	)
 
-	# Append.
-	# ("<<-" assigns to a global variable)
-	residential_units <<- rbind(residential_units, as.data.frame(newrow));
+	# rbind() is extremely slow. To make this faster, we should pre-allocate
+	# space in the data frame and then fill it in.
+	if (residential_units_count == nrow(residential_units)) {
+		# Allocate more space by doubling the size of the data frame.
+		# We'll chop it down to the number of rows we actually filled
+		# in at the end.
+		space_to_add = (1+residential_units_count) # residential_units_count is zero in the first iteration, so at 1 so we allocate something
+		residential_units <<- rbind(residential_units, data.frame(
+			square_suffix_lot=character(space_to_add),
+			use_code=numeric(space_to_add),
+			year_built=numeric(space_to_add),
+			owner_name=character(space_to_add),
+			structure_units=numeric(space_to_add),
+			address=character(space_to_add),
+			unit_number=character(space_to_add),
+			longitude=numeric(space_to_add),
+			latitude=numeric(space_to_add),
+			source_file=character(space_to_add),
+			source_object_id=numeric(space_to_add)
+		))
+		print(residential_units);
+	}
+
+	# Copy into the data frame and increment the counter of the number
+	# of rows we've actually used.
+	residential_units[residential_units_count,]$address = newrow$address;
+	residential_units_count <<- residential_units_count + 1; # "<<-" assigns to a global variable
+	print(residential_units)
 };
 
 expanded_unit_number <- function(source_unit, nunits, i) {
@@ -86,6 +111,7 @@ expanded_unit_number <- function(source_unit, nunits, i) {
 # MAIN
 
 # Create an empty data frame to hold all of the residential units in DC.
+residential_units_count = 0;
 residential_units <- data.frame(
 	square_suffix_lot=character(),
 	use_code=numeric(),
