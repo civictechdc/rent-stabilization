@@ -29,7 +29,7 @@ for ty, fn in (("ward", "Ward__2012"), ("smd", "Single_Member_District__2013")):
 residential_units = csv.writer(open("data/all-residential-units.csv", "w"))
 residential_units.writerow([
 	"square_suffix_lot", "use_code",
-	"year_built", "owner_name", "structure_units",
+	"year_built", "owner_name", "structure_units", "unit_in_structure",
 	"address", "unit_number", "longitude", "latitude", "ward", "smd",
 	"source_file", "source_object_id",
 ])
@@ -101,14 +101,19 @@ for fn in ("cama_residential.csv", "cama_condominium.csv", "cama_commercial.csv"
 			# For the commercial file, use the NUM_UNITS column
 			# if it has sane data.
 			unit_count = int(row["NUM_UNITS"])
+			exploded = True
 		elif use_code_info["units"] == "1":
 			unit_count = 1
+			exploded = (fn != "cama_condominium.csv") # don't treat condo units as "exploded" from a structure
 		elif use_code_info["units"] == "2-4":
 			unit_count = 3 # best guess
+			exploded = True
 		elif use_code_info["units"] == "5":
 			unit_count = 5
+			exploded = True
 		else:
 			print("dont know how many units in", row)
+			continue
 
 		# Find the ward and SMD of this unit/building.
 		row["X"] = float(row["X"])
@@ -120,8 +125,8 @@ for fn in ("cama_residential.csv", "cama_condominium.csv", "cama_commercial.csv"
 		for i in range(unit_count):
 			residential_units.writerow([
 				row["SSL"], int(row["USECODE"]),
-				row["AYB"], row["OWNERNAME"], unit_count,
-				row["PREMISEADD"], make_unit_num(row["UNITNUMBER"], i, unit_count),
+				row["AYB"], row["OWNERNAME"], (unit_count if exploded else "NA"), ((i+1) if exploded else "NA"),
+				row["PREMISEADD"], row["UNITNUMBER"],
 				row["X"], row["Y"],
 				ward, smd,
 				fn, row["OBJECTID"],
