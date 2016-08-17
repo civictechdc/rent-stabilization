@@ -11,6 +11,7 @@ is_residential_rental_use_code <- function(usecode) {
 	# into an integer first)
 	return(sum(as.numeric(usecodes$usecode)==as.numeric(usecode)) > 0);
 }
+
 get_use_code_unit_count <- function(usecode) {
 	# How many units can we assume are in a structure with this use code?
 	units <- usecodes[usecodes$usecode==usecode,]$units;
@@ -49,16 +50,16 @@ append_unit <- function(cama_row, i, units, source_file) {
 	# expand a structure into its units.
 	newrow = list(
 		# property metadata
-		square_suffix_lot=cama_row$SSL,
+		square_suffix_lot=as.character(cama_row$SSL),
 		use_code=cama_row$USECODE,
 
 		# fields related to rent stabilization policy
 		year_built=cama_row$AYB,
-		owner_name=cama_row$OWNERNAME,
+		owner_name=as.character(cama_row$OWNERNAME),
 		structure_units=units,
 
 		# address, unit, and geographic location
-		address=cama_row$PREMISEADD,
+		address=as.character(cama_row$PREMISEADD),
 		unit_number=expanded_unit_number(cama_row$UNITNUMBER, units, i),
 		longitude=cama_row$X,
 		latitude=cama_row$Y,
@@ -86,16 +87,17 @@ append_unit <- function(cama_row, i, units, source_file) {
 			longitude=numeric(space_to_add),
 			latitude=numeric(space_to_add),
 			source_file=character(space_to_add),
-			source_object_id=numeric(space_to_add)
+			source_object_id=numeric(space_to_add),
+			stringsAsFactors=F
 		))
-		print(residential_units);
+		print(residential_units_count)
 	}
 
 	# Copy into the data frame and increment the counter of the number
 	# of rows we've actually used.
-	residential_units[residential_units_count,]$address = newrow$address;
+	residential_units[residential_units_count,] <<- as.data.frame(newrow, stringsAsFactors=F);
 	residential_units_count <<- residential_units_count + 1; # "<<-" assigns to a global variable
-	print(residential_units)
+	#print(residential_units)
 };
 
 expanded_unit_number <- function(source_unit, nunits, i) {
@@ -126,7 +128,9 @@ residential_units <- data.frame(
 	latitude=numeric(),
 
 	source_file=character(),
-	source_object_id=numeric());
+	source_object_id=numeric(),
+		
+	stringsAsFactors=F);
 
 # Loop through the residential properties. Each property
 # may have more than one unit, which we expand out.
@@ -197,4 +201,6 @@ over_rows(read.csv("data/cama_commercial.csv"), function(row) {
 })
 
 # Save!
+residential_units = residential_units[0:residential_units_count,]
 write.table(residential_units, "data/all_residential_units.csv", row.names=F)
+
