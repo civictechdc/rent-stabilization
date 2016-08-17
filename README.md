@@ -93,10 +93,10 @@ Other datasets we may use are [CPI-W](http://download.bls.gov/pub/time.series/cw
 Reproducing Our Analysis
 ------------------------
 
-Our analysis is performed in R with the following scripts run in this order:
+Our analysis is performed with the following scripts run in this order:
 
 * `download-datasets.R` fetches the datasets and saves them into the `data` directory.
-* `residential-units.R` creates a single table that lists every known residential unit in the district, by including the units from the CAMA datasets and expanding the buildings listed in the CAMA dataset into their units. Where the number of units in a structure is not given in the CAMA file, we use the use code to guess (see above). This step is unfortunately very slow.
+* `residential-units.py` creates a single table that lists every known residential unit in the district, by including the units from the CAMA datasets and expanding the buildings listed in the CAMA dataset into their units. Where the number of units in a structure is not given in the CAMA file, we use the use code to guess (see above). This step is unfortunately very slow.
 
 Analysis
 --------
