@@ -19,3 +19,16 @@ download.file("http://opendata.dc.gov/datasets/d6c70978daa8461992658b69dccb3dbf_
 # UNIT: Building
 download.file("http://opendata.dc.gov/datasets/e53572ef8f124631b965709da8200167_23.csv",
               "data/cama_commercial.csv")
+
+# Geospatial datasets
+
+# DC's Wards
+download.file("http://opendata.dc.gov/datasets/0ef47379cbae44e88267c01eaec2ff6e_31.zip",
+              "data/ward.zip")
+system("cd data && unzip -u ward.zip")
+
+# DC's Single Member Districts, which also gives the Advisory Neighborhood Commision number
+# (This can't be used to determine wards because there is an ANC that crosses a ward boundary.)
+download.file("http://opendata.dc.gov/datasets/890415458c4c40c3ada2a3c48e3d9e59_21.zip",
+	          "data/smd.zip")
+system("cd data && unzip -u smd.zip")
