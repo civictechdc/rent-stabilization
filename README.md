@@ -96,7 +96,8 @@ Reproducing Our Analysis
 Our analysis is performed with the following scripts run in this order:
 
 * `download-datasets.R` fetches the datasets and saves them into the `data` directory.
-* `residential-units.py` creates a single table that lists every known residential unit in the district, by including the units from the CAMA datasets and expanding the buildings listed in the CAMA dataset into their units. Where the number of units in a structure is not given in the CAMA file, we use the use code to guess (see above). This step is unfortunately very slow.
+* `residential-units.py` creates a single table (`data/all-residential-units.csv`) that lists every known residential unit in the district, by including the units from the CAMA datasets and expanding the buildings listed in the CAMA dataset into their units. Where the number of units in a structure is not given in the CAMA file, we use the use code to guess (see above).
+* `owner-aggregate-units.py` adds a column to the table for the aggregate number of residential units owned by the owner of each unit, using simple string matching on owner names (which seems to work well enough).
 
 Analysis
 --------

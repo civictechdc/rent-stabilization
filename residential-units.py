@@ -13,6 +13,10 @@ except ImportError:
 use_codes = csv.DictReader(open("use-codes.csv"))
 use_codes = { int(rec["usecode"]): rec for rec in use_codes }
 
+# Owner strings.
+government_owners = ("DISTRICT OF COLUMBIA HOUSING AUTHORITY", "UNITED STATES OF AMERICA", "DISTRICT OF COLUMBIA")
+corporate_owner_suffixes = ("LLC","LP","INC","TRUSTEE","ASSOCIATES","PARTNERSHIP","CORPORATION","TRUSTEES","ASSOCIATION","TRUST","COMPANY","PRTNSHP","LTD","VENTURE","CORP","L.P.","LTP","UNIVERSITY","PROPERTY","PTSP","CORPORTATION","PROPERTIES","LLP","HOUSING","APARTMENTS","PART","FOUNDATION","CHURCH")
+
 # Pre-load the ward and SMD boundaries.
 geometries = { }
 for ty, fn in (("ward", "Ward__2012"), ("smd", "Single_Member_District__2013")):
@@ -32,6 +36,7 @@ residential_units.writerow([
 	"year_built", "owner_name", "structure_units", "unit_in_structure",
 	"address", "unit_number", "longitude", "latitude", "ward", "smd",
 	"source_file", "source_object_id",
+	"govowned", "corpowned", "cooperative",
 ])
 
 # Some functions.
@@ -130,4 +135,8 @@ for fn in ("cama_residential.csv", "cama_condominium.csv", "cama_commercial.csv"
 				row["X"], row["Y"],
 				ward, smd,
 				fn, row["OBJECTID"],
+
+				row["OWNERNAME"] in government_owners, # govowned
+				row["OWNERNAME"].split(" ")[-1] in corporate_owner_suffixes, # last word of owner appears in corporate_owner_suffixes
+				int(row["USECODE"]) in (26,27,126,127), # cooperative based on use code
 			])
