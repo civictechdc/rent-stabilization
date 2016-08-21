@@ -4,9 +4,9 @@ DC rent stabalization policy change impact project
 The Project
 -----------
 
-The Rent Stabilization Program in the District of Columbia ([DC Code § 42–3502.05](http://dccode.org/simple/sections/42-3502.05.html)) covers all rental units _except_ those for which the building permit was issued after December 31, 1975 or the owner owns four or fewer rental units within the District, not necessarily in the same building (more or less).
+The Rent Stabilization Program in the District of Columbia ([DC Code § 42–3502.05](https://beta.code.dccouncil.us/dc/council/code/sections/42-3502.05.html)) restricts the yearly rent increases that landlords can impose on tenants.
 
-The purpose of this project is to evaluate how a change in rent stabilization policy would affect rental properties in the District.
+Rent stabilization covers all rental units _except_ those for which an exemption applies. The primary exemptions are for government owned buildings, for buildings whose building permit was issued in 1976 or later, and for owners who are not corporations and own four or fewer rental units in the District.
 
 We are working with the [Coalition for Nonprofit Housing & Economic Development](https://www.cnhed.org/). Our team members are [Marie Whittaker](https://github.com/mseew), [Nate Banion](https://github.com/nbanion), Harlan Harris, [Svyat Nakonechny](https://github.com/snakonechny), [Nicole Kelly](https://github.com/nikelly1326), Chris Given, Ariana Carella, Heidi Thompson, [Ursula Kaczmarek](https://github.com/ursulakaczmarek), [Brigid McDermott](https://github.com/br-mcdermott), and [Josh Tauberer](https://github.com/joshdata). The project began at Code for DC's National Data of Civic Hacking event on June 4, 2016.
 
@@ -98,11 +98,12 @@ Our analysis is performed with the following scripts run in this order:
 * `download-datasets.R` fetches the datasets and saves them into the `data` directory.
 * `residential-units.py` creates a single table (`data/all-residential-units.csv`) that lists every known residential unit in the district, by including the units from the CAMA datasets and expanding the buildings listed in the CAMA dataset into their units. Where the number of units in a structure is not given in the CAMA file, we use the use code to guess (see above).
 * `owner-aggregate-units.py` adds a column to the table for the aggregate number of residential units owned by the owner of each unit, using simple string matching on owner names (which seems to work well enough).
+* `analysis.R` prints some aggregate numbers and generates the chart images.
 
-Analysis
---------
+Results
+-------
 
-We are in the process of analyzing the data.
+See the [Analysis Results](analysis.md).
 
 See [Harlan's visualization demo](https://harlanh.shinyapps.io/rent-stabilization-policy-viz/) (it's a work in process using simulated data).
 
