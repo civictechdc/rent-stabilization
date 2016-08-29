@@ -114,7 +114,7 @@ We considered how a change in the threshold for aggregate owned units would affe
 
 Our analysis here is senstive to our assumption about the number of units within small residential housing structures, for which we mostly made a guess on the number of units informed by the structure's property use code, as well as on the quality of the CAMA ownership field. It is not clear how accurate the results in this section are.
 
-The chart below shows the units exempt from rent control because they are owned by a "natural person" who owns in aggregate four or fewer rental units in the District. The chart excludes units exempt for other reasons, e.g. units in a building built after 1978.
+The chart below shows the units exempt from rent control because they are owned by a "natural person" who owns in aggregate four or fewer rental units in the District. The chart excludes units exempt for other reasons, e.g. units in a building built in or after 1978.
 
 ![Units by Owner's Aggregate Number of Owned Units](plots/by_aggregate_units_owned.png)
 
