@@ -82,12 +82,13 @@ Of those, 177,951 were considered by our analysis to be rental housing units.
 
 | Exemption Type  | # of rental units | % of rental units |
 | --------------- | ----------------- | ----------------- |
+| Not Exempt            | 106,691 | 60% |
 | Owner Owns <= 4 Units | 25,460 | 14%  |
 | Built >= 1978         | 25,516 | 14%  |
 | Cooperative           | 12,079 | 7%   |
 | Government Owner      | 8,201  | 5%   |
 
-(A unit that falls under both of the first two exemptions in this table was counted only in the first exemption, so that the rows add up to 100%.)
+(A very small number of units are exempt for multiple reasons. Units that fall under both of the first two exemptions in this table are counted only in the first exemption, so that the rows add up to 100%.)
 
 Breaking this down by ward, we can see that Ward 6 in particular stands out as having many rental units but few subject to rent stabilization:
 
@@ -121,6 +122,10 @@ The largest group of exemptions is for four-unit-owning owners. Changing the thr
 
 The bar for 1 aggregate owned rental unit is zero following our assumption that such units are owner-occupied and are therefore not rental.
 
+### Both Policy Changes
+
+A change in the law shifting the building permit year forward twenty years _and_ reducing the aggregate units cut-off from 4 to 3 would cause rent stabilization to apply to 16,189 more units, or 13% of all rental units, compared to current law.
+
 ### Analysis by Ward
 
 The chart below shows how many units would be subject to rent stabilization after a change in rent stabilization law --- either a twenty-year shift in the building permit year or a reduction in the aggregate owned units from 4 to 3.
@@ -129,4 +134,3 @@ The effects of the two hypothetical changes in the law differ substantially from
 
 ![Effect on Policy by Ward](plots/changes_by_ward.png)
 
-Although the bars are stacked, note that the two hypothetical changes to the law were analyzed independently. The combined effect of applying both changes to the law would yield a slightly smaller total increase in stabilized units than the chart indicates.

@@ -198,6 +198,7 @@ changes_by_ward = rbind(
 	make_df("currently stabilized", !is_exempt_actual),
 	make_df("if 1976 => 1996", is_exempt_actual & !is_exempt(1998, 4)),
 	make_df("if 4 => 3", is_exempt_actual & !is_exempt(1978, 3))
+	#make_df("both", is_exempt_actual & is_exempt(1998, 4) & is_exempt(1978, 3) & !is_exempt(1998, 3))
 )
 save.plot(
 	"changes_by_ward",
