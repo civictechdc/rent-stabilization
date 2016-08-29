@@ -1,4 +1,5 @@
 import csv
+import random
 import shapefile # pip3 install pyshp
 
 try:
@@ -111,7 +112,12 @@ for fn in ("cama_residential.csv", "cama_condominium.csv", "cama_commercial.csv"
 			unit_count = 1
 			exploded = (fn != "cama_condominium.csv") # don't treat condo units as "exploded" from a structure
 		elif use_code_info["units"] == "2-4":
-			unit_count = 3 # best guess
+			# We don't know how many units this structure has but it's between 2 and 4.
+			# We could take a best guess, like 3, but lumping everything into a single
+			# value makes further analysis look funky. So we'll spread it out between
+			# 2 and 4. We're making an assumption here that this use code is evenly
+			# spread between 2 and 4 units.
+			unit_count = random.choice([2,3,4])
 			exploded = True
 		elif use_code_info["units"] == "5":
 			unit_count = 5
