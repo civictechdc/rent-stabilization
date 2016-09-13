@@ -4,9 +4,14 @@ DC rent stabalization policy change impact project
 The Project
 -----------
 
-The Rent Stabilization Program in the District of Columbia ([DC Code § 42–3502.05](https://beta.code.dccouncil.us/dc/council/code/sections/42-3502.05.html)) restricts the yearly rent increases that landlords can impose on tenants.
+The Rent Stabilization Program (rent control) in the District of Columbia ([DC Code § 42–3502.05](https://beta.code.dccouncil.us/dc/council/code/sections/42-3502.05.html)) restricts the yearly rent increases that landlords can impose on tenants.
 
-Rent stabilization covers all rental units _except_ those for which an exemption applies. The primary exemptions are for government owned buildings, for buildings whose building permit was issued in 1976 or later, and for owners who are not corporations and own four or fewer rental units in the District.
+Rent stabilization covers all rental units _except_ those for which an exemption applies. The primary exemptions are for government-owned buildings, for buildings whose building permit was issued in 1976 or later, and for owners who are not corporations and own four or fewer rental units in the District. Owners who reach voluntary agreements with their tenants can also be released from rent control, in return for other guarantees. These agreements usually protect the rent of current residents but not future residents.
+
+There is, to our knowledge, no direct data on how many units are subject to rent control or which ones they are. Inferring that from public data is part of this project, as is modeling what the effect on rent control would be if aspects of the law were changed (such as changing the cut-off date of permits from 1976 to 1986).
+
+Who We Are
+----------
 
 We are working with the [Coalition for Nonprofit Housing & Economic Development](https://www.cnhed.org/). Our team members are [Marie Whittaker](https://github.com/mseew), [Nate Banion](https://github.com/nbanion), Harlan Harris, [Svyat Nakonechny](https://github.com/snakonechny), [Nicole Kelly](https://github.com/nikelly1326), Chris Given, Ariana Carella, Heidi Thompson, [Ursula Kaczmarek](https://github.com/ursulakaczmarek), [Brigid McDermott](https://github.com/br-mcdermott), and [Josh Tauberer](https://github.com/joshdata). The project began at Code for DC's National Data of Civic Hacking event on June 4, 2016.
 
