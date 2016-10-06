@@ -60,6 +60,11 @@ data$weight <- ifelse(
         1-1/data$owner_aggregate_units
 	)
 
+# For counting the aggregate number of *rental* units owned by an
+# owner, we subtract one from the total number of aggregate residential
+# units owned.
+data$owner_aggregate_units[!data$corpowned & !data$cooperative] = data$owner_aggregate_units[!data$corpowned & !data$cooperative] -1
+
 print(c("Total housing units", nrow(data)))
 print(c("Total rental units", sum(data$weight, na.rm=T)))
 
@@ -160,13 +165,21 @@ save.plot(
 # Looking at units not exempt for reasons besides building the owner's
 # aggregate units, how many units are owned by by owners with different
 # aggregate owned units?
+print("units by aggregate units owned by owner (except units excempt for other reasons)")
+for (au in 1:6) {
+	print(c(au, sum(data$weight[
+			  !data$corpowned
+			& data$owner_aggregate_units==au
+			& !is_exempt(1978, 0) # exclude exempt for reasons besides aggregate units
+			], na.rm=T)))
+}
 
 # Make a new data frame where the rows are the number of owned units.
 #  $n = number of units built in that year
 #  $cum = cumulative number of builts built in that year or any earlier year
 by_aggregate_units <- function (ward) {
 	ret = data.frame(
-		aggregate_units=1:4,
+		aggregate_units=1:6,
 		ward=as.character(ward)
 	)
 	ret$n = sapply(ret$aggregate_units, function(au)
@@ -187,8 +200,8 @@ save.plot(
 	"by_aggregate_units_owned",
 	ggplot(aggregate_units, aes(aggregate_units, n))
 	 + geom_bar(stat='identity', aes(fill=ward))
-	 + labs(title="Exemptions by Aggregate Owned Units")
-	 + xlab('Unit\'s Owner\'s Aggregate Owned Units')
+	 + labs(title="Units by Owner's Aggregate Owned Rental Units")
+	 + xlab('Owner\'s Aggregate Owned Rental Units')
 	 + ylab('Rental Units')
 	)
 
@@ -197,8 +210,8 @@ print("with changes in policy # %")
 changes_by_ward = rbind(
 	make_df("currently stabilized", !is_exempt_actual),
 	make_df("if 1976 => 1996", is_exempt_actual & !is_exempt(1998, 4)),
-	make_df("if 4 => 3", is_exempt_actual & !is_exempt(1978, 3))
-	#make_df("both", is_exempt_actual & is_exempt(1998, 4) & is_exempt(1978, 3) & !is_exempt(1998, 3))
+	make_df("if 4 => 3", is_exempt_actual & !is_exempt(1978, 3))#,
+	#make_df("both", is_exempt_actual & !is_exempt(1998, 3))
 )
 save.plot(
 	"changes_by_ward",

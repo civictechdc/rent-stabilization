@@ -34,7 +34,7 @@ From the CAMA dataset, we pulled out residential properties as identified by the
 
 CAMA's unit of analysis is an owned property, which can be a house, a large apartment building, or a single condominium unit. We broke out the CAMA data into residential housing units (i.e. apartments, single-family homes and condos, etc.).
 
-However, the CAMA data does not precisely indicate how many housing units are contained within each record, even though the CAMA datasets have a number-of-units field. Where this field was empty, which includes most small residential properties, we used the use code, which indicates if the property has 1, 2-4, 5, or an unknown number of housing units. Where the use code indicated 2-4 units, we randomly assigned each property 2, 3, or 4 housing units. Where the use code did not indicate a number, we omitted the property from our analysis.
+However, the CAMA data does not precisely indicate how many housing units are contained within each record, even though the CAMA datasets have a number-of-units field. Where this field was empty, which includes most small residential properties, we used the use code, which indicates if the property has 1, 2-4, 5, or an unknown number of housing units. Where the use code indicated 2-4 units, we randomly gave the property 2, 3, or 4 housing units using a non-uniform distribution: 60% to 2 units, 30% to 3, and 10% to 4. (This distribution was informed by a post-hoc analysis.) Where neither CAMA nor the use code indicated a number, we omitted the property from our analysis (but very few properties were excluded).
 
 #### Determining Rental Units
 
@@ -64,7 +64,9 @@ Residential housing units were marked as being a part of a **cooperative** if th
 
 Properties owned by a "natural person" may be exempt from rent stabilization if the owner owns four or fewer rental units in aggregate.
 
-To determine how many rental units a unit's owner owns, we looked at the CAMA owner name. We assumed that two units are owned by the same person just when their owner in CAMA is an identical text string. We do not know if this is over-estimating (because of name clashes) or under-estimating (because of variations in name spelling) the aggregate number of units owned by owners.
+To determine how many rental units a unit's owner owns, we first counted the total number of residential units an owner owns. We assumed that each building has a single owner and, to aggregate across properties, we assumed that two properties are owned by the same person just when their owner in the CAMA dataset is an identical text string. Per the assumption that "natural person" owners occupy one of their own units, we subtracted one from the ownership count to determine the number of _rental_ units owned.
+
+This analysis is very sensitive to the number of units determined to be in a property (see above). We do not know if CAMA owner text matching is over-estimating (because of name clashes) or under-estimating (because of variations in name spelling) the aggregate number of units owned by owners.
 
 ### Ward and ANC
 
@@ -74,21 +76,21 @@ We determined the ward and ANC that each residential housing unit is in using th
 
 ### Overview
 
-The data indicates that there are 310,751 residential housing units in the District of Columbia.
+The data indicates that there are 304,244 residential housing units in the District of Columbia.
 
-Of those, 177,951 were considered by our analysis to be rental housing units.
+Of those, 171,444 were considered by our analysis to be rental housing units.
 
 60% of rental housing units in the District are subject to rent stabilization. The remaining 40% are exempt (if the owner requests and receives an exemption) for the following reasons:
 
 | Exemption Type  | # of rental units | % of rental units |
 | --------------- | ----------------- | ----------------- |
-| Not Exempt            | 106,691 | 60% |
-| Owner Owns <= 4 Units | 25,460 | 14%  |
-| Built >= 1978         | 25,516 | 14%  |
+| (Not Exempt)            | 102,223 | 60% |
+| Built >= 1978         | 25,352 | 15%  |
+| Owner Owns <= 4 Units | 23,639 | 14%  |
 | Cooperative           | 12,079 | 7%   |
-| Government Owner      | 8,201  | 5%   |
+| Government Owner      | 8,147  | 5%   |
 
-(A very small number of units are exempt for multiple reasons. Units that fall under both of the first two exemptions in this table are counted only in the first exemption, so that the rows add up to 100%.)
+(A very small number of units are exempt for multiple reasons. Units that fall under both of the first two exemptions in this table are counted only in the second exemption, so that the rows add up to 100%.)
 
 Breaking this down by ward, we can see that Ward 6 in particular stands out as having many rental units but few subject to rent stabilization:
 
@@ -106,7 +108,7 @@ The chart below shows the cumulative number of rental units by their year built,
 
 Sweeping the line to the right, few new rental units would be brought under the law until about the year 2000.
 
-Changing the law from 1976 to 1996 --- a twenty-year shift --- would add 5,811 new units to rent stabilization, or 3% of rental units.
+Changing the law from 1976 to 1996 --- a twenty-year shift --- would add 5,732 new units to rent stabilization, or 3% of rental units.
 
 ### Aggregate Units Owned
 
@@ -114,17 +116,15 @@ We considered how a change in the threshold for aggregate owned units would affe
 
 Our analysis here is senstive to our assumption about the number of units within small residential housing structures, for which we mostly made a guess on the number of units informed by the structure's property use code, as well as on the quality of the CAMA ownership field. It is not clear how accurate the results in this section are.
 
-The chart below shows the units exempt from rent control because they are owned by a "natural person" who owns in aggregate four or fewer rental units in the District. The chart excludes units exempt for other reasons, e.g. units in a building built in or after 1978.
+The chart below shows the count of units by how many rental units the owner owns in aggregate. The units from 1 through 4 are potentially exempt from rent stabilization. The chart excludes units exempt for other reasons, e.g. units in a building built in or after 1978.
 
 ![Units by Owner's Aggregate Number of Owned Units](plots/by_aggregate_units_owned.png)
 
-The largest group of exemptions is for four-unit-owning owners. Changing the threshold in the law from 4 units to 3 would cause rent stabilization to apply to 10,148 new units, or 6% of rental units, according to our assumptions.
-
-The bar for 1 aggregate owned rental unit is zero following our assumption that such units are owner-occupied and are therefore not rental.
+Few units are owned by an owner who owns 4 rental units in aggregate, according to our assumptions. Changing the threshold in the law from 4 units to 3 would cause rent stabilization to apply to approximately 1,710 new units, or 1% of all rental units.
 
 ### Both Policy Changes
 
-A change in the law shifting the building permit year forward twenty years _and_ reducing the aggregate units cut-off from 4 to 3 would cause rent stabilization to apply to 16,189 more units, or 13% of all rental units, compared to current law.
+A change in the law shifting the building permit year forward twenty years _and_ reducing the aggregate units cut-off from 4 to 3 would cause rent stabilization to apply to 7,468 more units, or 4% of all rental units, compared to current law. (Almost no units are exempt for multiple reasons.)
 
 ### Analysis by Ward
 

@@ -115,9 +115,10 @@ for fn in ("cama_residential.csv", "cama_condominium.csv", "cama_commercial.csv"
 			# We don't know how many units this structure has but it's between 2 and 4.
 			# We could take a best guess, like 3, but lumping everything into a single
 			# value makes further analysis look funky. So we'll spread it out between
-			# 2 and 4. We're making an assumption here that this use code is evenly
-			# spread between 2 and 4 units.
-			unit_count = random.choice([2,3,4])
+			# 2 and 4. Based on some post-hoc analysis, it looks like 2 and 3 units are
+			# more common than 4 -- it makes the results smoother when comparing to
+			# 5.
+			unit_count = random.choice([2,2,2,2,2,2,3,3,3,4])
 			exploded = True
 		elif use_code_info["units"] == "5":
 			unit_count = 5

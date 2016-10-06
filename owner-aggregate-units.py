@@ -15,9 +15,14 @@ with open("/tmp/all-residential-units.csv", "w") as f:
 	header = None
 	for row in csv.reader(open("data/all-residential-units.csv")):
 		if header == None:
-			row.append("owner_aggregate_units")
+			if row[-1] != "owner_aggregate_units":
+				row.append("owner_aggregate_units")
+				has_col = False
+			else:
+				has_col = True
 			header = row
 		else:
+			if has_col: row.pop(-1)
 			owner_name = row[header.index("owner_name")]
 			row.append(aggregate_units[owner_name])
 		writer.writerow(row)
