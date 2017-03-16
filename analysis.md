@@ -6,11 +6,11 @@ Rent stabilization covers all rental units _except_ those for which an exemption
 
 This analysis evaluates how a change in rent stabilization policy would affect rental properties in the District.
 
-For more background, see see this project's [README](README.md).
+For more background, see this project's [README](README.md).
 
 ## Methodology
 
-Our analysis is based on the [Computer Assisted Mass Appraisal (CAMA) database](http://opendata.dc.gov/datasets?q=cama&sort_by=relevance) which is a database of properties, created primarily by the District government for tax assessment purposes.
+Our analysis is based on the [Computer Assisted Mass Appraisal (CAMA) database](http://opendata.dc.gov/datasets?q=cama&sort_by=relevance) which is a database of properties, created primarily by the District government for tax assessment purposes. The dataset was downloaded on August 17, 2016.
 
 The CAMA dataset, in combination with [real property use codes](http://opendata.dc.gov/datasets/9d8e09cb7403445ca8b4354cac6ae776_54) ([PDF](http://otr.cfo.dc.gov/sites/default/files/dc/sites/otr/publication/attachments/Use%20codes.pdf)) assigned by the District, tells us:
 
@@ -42,13 +42,13 @@ Not all residential housing units are rented. Some are occupied by their owner, 
 
 The CAMA dataset does not indicate --- and we had no readily available way to determine --- if a housing unit is owner-occupied or rented.
 
-However, we made the assumption that each "natural person" owner (see below) lives in exactly one housing unit that they own. For example, our analysis omits single-family houses whose owner is not listed as owning any other housing units. If an owner owns two or more units, one unit is discounted.
+However, we made the assumption that each "natural person" owner (see below) lives in exactly one housing unit that they own. For example, our analysis omits single-family houses whose owner is not listed as owning any other housing units. If an owner owns two or more units, one unit is discounted. This is represented in the data model by de-weighting all natural person-owned units by a factor of `1/owner_aggregate_units`, rather than omitting units at random.
 
 ### Building Permit Year
 
 We did not readily have access to the year each property's building permit was issued.
 
-Instead we used the "actual year built" field in CAMA, and added 2 years, on the assumption of a typical two year delay between the issuance of a building permit and the construction of a building.
+Instead we used the "actual year built" field in CAMA, and added 2 years, on the assumption of a typical two year delay between the issuance of a building permit and the construction of a building (as the [2011 Urban Institute report on rent control](http://www.urban.org/sites/default/files/publication/27346/412347-A-Rent-Control-Report-for-the-District-of-Columbia.PDF) did).
 
 The "AYB" field in CAMA is a little messy. When the field did not contain a legitimate year, we treated the year as 1900. This did not affect many buildings.
 
@@ -58,7 +58,7 @@ Residential housing units were marked as **government-owned** if CAMA lists the 
 
 Residential housing units were marked as being **not owned by a "natural person"** (per the law) if the owner name in CAMA ends with `LLC`, `LP`, `INC`, `TRUSTEE`, `ASSOCIATES`, `PARTNERSHIP`, `CORPORATION`, `TRUSTEES`, `ASSOCIATION`, `TRUST`, `COMPANY`, `PRTNSHP`, `LTD`, `VENTURE`, `CORP`, `L.P.`, `LTP`, `UNIVERSITY`, `PROPERTY`, `PTSP`, `CORPORTATION`, `PROPERTIES`, `LLP`, `HOUSING`, `APARTMENTS`, `PART`, `FOUNDATION`, or `CHURCH`.
 
-Residential housing units were marked as being a part of a **cooperative** if the property use code was 26, 27, 126, or 127. For the purposes of this analysis, all such units were considered exempt from rent stabilization, although the law is more complex.
+Residential housing units were marked as being a part of a **cooperative** if the property [use code](use-codes.csv) was 26, 27, 126, or 127. For the purposes of this analysis, all such units were considered exempt from rent stabilization, although the law is more complex.
 
 ### Owner's Aggregate Owned Units
 
@@ -78,9 +78,11 @@ We determined the ward and ANC that each residential housing unit is in using th
 
 The data indicates that there are 304,244 residential housing units in the District of Columbia.
 
-Of those, 171,444 were considered by our analysis to be rental housing units.
+Of those, 171,444 were considered by our analysis to be rental housing units. This compares favorably to the 140,778 units estimated by [District Measured (2016)](https://districtmeasured.com/2016/03/23/how-can-the-rent-be-so-high-in-dc-when-almost-two-thirds-of-all-rental-units-in-the-district-are-subject-torent-control-a-small-number-of-spoiler-units-with-high-turnover-may-be-the-reason/) and 119,288 by the [Urban Institute (2011)](http://www.urban.org/research/publication/rent-control-report-district-columbia/view/full_report).
 
-60% of rental housing units in the District are subject to rent stabilization. The remaining 40% are exempt (if the owner requests and receives an exemption) for the following reasons:
+60% of rental housing units in the District were determined to be subject to rent stabilization. This again compares favorably to 63% determined by District Measured (2016) and 66% determined by Urban Institude (2011).
+
+The remaining 40% are exempt (if the owner requests and receives an exemption) for the following reasons:
 
 | Exemption Type  | # of rental units | % of rental units |
 | --------------- | ----------------- | ----------------- |
